@@ -1,0 +1,34 @@
+{
+    "name": "ng-hooks",
+    "version": "1.0.0",
+    "description": "Replace angular lifecycle hooks with nicer annotations",
+    "main": "./ts/index.js",
+    "module": "./ts/index.mjs",
+    "exports": {
+        ".": {
+            "import": "./ts/index.js",
+            "require": "./ts/index.js",
+            "types": "./ts/index.d.ts"
+        }
+    },
+    "type": "module",
+    "scripts": {
+        "test": "tsc -p tsconfig.test.json && jasmine --config=./jasmine.json",
+        "build": "ng build lib",
+        "pre": "npm run build",
+        "pack": "npm run pre && cd dist && npm pack",
+        "publish": "npm run pre && cp README.md ./dist/README.md && cd dist && npm publish"
+    },
+    "author": "Cosmin Popescu",
+    "homepage": "https://github.com/cosminadrianpopescu/ng-hooks",
+    "license": "GPL-3.0-or-later",
+    "devDependencies": {
+        "@types/jasmine": "^5.1.4",
+        "jasmine": "^5.1.0",
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "reflect-metadata": "^0.2.2",
+        "rxjs": "^7.8.1"
+    }
+}

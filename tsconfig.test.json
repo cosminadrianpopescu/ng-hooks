@@ -1,0 +1,12 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "./test-build/",
+        "module": "node16",
+        "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true
+    },
+    "include": ["./ts/reflect.mts", "./spec/tests.spec.mts"],
+    "exclude": []
+}
