@@ -14,7 +14,7 @@
     "type": "module",
     "scripts": {
         "test": "tsc -p tsconfig.test.json && jasmine --config=./jasmine.json",
-        "build": "ng build lib",
+        "build": "tsc",
         "pre": "npm run build",
         "pack": "npm run pre && cd dist && npm pack",
         "publish": "npm run pre && cp README.md ./dist/README.md && cd dist && npm publish"
