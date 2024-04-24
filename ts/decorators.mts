@@ -30,7 +30,6 @@ export function overwriteCycle(which: CycleType, ctor: ClassConstructor) {
     }
 
     ctor[which] = function(...args: Array<any>) {
-        console.log('calling', which);
         if (this[key]) {
             this[key](...args);
         }
