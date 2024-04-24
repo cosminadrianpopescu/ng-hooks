@@ -14,6 +14,7 @@
         "useUnknownInCatchVariables": true,               /* Default catch clause variables as 'unknown' instead of 'any'. */
         "alwaysStrict": false,                             /* Ensure 'use strict' is always emitted. */
         "noUnusedLocals": false,                           /* Enable error reporting when local variables aren't read. */
+        "declaration": true,
         "noUnusedParameters": false,                       /* Raise an error when a function parameter isn't read. */
         "exactOptionalPropertyTypes": false,               /* Interpret optional property types as written, rather than adding 'undefined'. */
         "noImplicitReturns": false,                        /* Enable error reporting for codepaths that do not explicitly return in a function. */

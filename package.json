@@ -6,9 +6,9 @@
     "module": "./ts/index.mjs",
     "exports": {
         ".": {
-            "import": "./ts/index.js",
+            "import": "./ts/index.mjs",
             "require": "./ts/index.js",
-            "types": "./ts/index.d.ts"
+            "types": "./ts/index.d.mts"
         }
     },
     "type": "module",
@@ -17,7 +17,7 @@
         "build": "tsc",
         "pre": "npm run build",
         "pack": "npm run pre && cd dist && npm pack",
-        "publish": "npm run pre && cp README.md ./dist/README.md && cd dist && npm publish"
+        "publish": "npm run pre && cp README.md ./dist/README.md && cp package.json ./dist/package.json && cd dist && npm publish"
     },
     "author": "Cosmin Popescu",
     "homepage": "https://github.com/cosminadrianpopescu/ng-hooks",
