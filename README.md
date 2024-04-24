@@ -8,7 +8,7 @@ practical and easy.
 ## Install
 
 ```bash
-npm install --save ng-hooks
+npm install --save ng-annotated-hooks
 ```
 
 ## Background
@@ -106,7 +106,7 @@ export class MyFirstComponent extends BaseComponent {
 
 You can see clearly the issue. 
 
-## ng-hooks solution
+## ng-annotated-hooks solution
 
 In order to solve this issues, this library provides a few decorators.
 
@@ -136,7 +136,7 @@ export class ChildComponent extends ParentComponent implements OnInit {
 
 ```
 
-***ng-hooks way***
+***ng-annotated-hooks way***
 
 ```typescript
 export class ParentComponent extends BaseComponent {
@@ -313,7 +313,7 @@ export class MyComponent {
 
 ### Handling of Observables
 
-By using `ng-hooks`, you can also auto handle the observables, without any
+By using `ng-annotated-hooks`, you can also auto handle the observables, without any
 boilerplate code. 
 
 In order to have components that are subscribtion safe, you have to call the
@@ -362,7 +362,7 @@ export class SubscribtionSafeComponent implements OnDestroy {
 }
 ```
 
-In this case, altough you define some destroy logic (via `ng-hooks`
+In this case, altough you define some destroy logic (via `ng-annotated-hooks`
 annotations or by implementing `ngOnDestroy` method), the unsubscribe logic
 still gets executed. This means that you won't have a memory leak when this
 component gets removed from the DOM.

@@ -1,9 +1,10 @@
 {
-    "name": "ng-hooks",
-    "version": "1.0.0",
+    "name": "ng-annotated-hooks",
+    "version": "1.0.1",
     "description": "Replace angular lifecycle hooks with nicer annotations",
     "main": "./index.js",
     "module": "./index.mjs",
+    "typings": "./index.d.mts",
     "exports": {
         ".": {
             "import": "./index.mjs",
