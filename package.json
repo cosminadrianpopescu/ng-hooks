@@ -2,13 +2,13 @@
     "name": "ng-hooks",
     "version": "1.0.0",
     "description": "Replace angular lifecycle hooks with nicer annotations",
-    "main": "./ts/index.js",
-    "module": "./ts/index.mjs",
+    "main": "./index.js",
+    "module": "./index.mjs",
     "exports": {
         ".": {
-            "import": "./ts/index.mjs",
-            "require": "./ts/index.js",
-            "types": "./ts/index.d.mts"
+            "import": "./index.mjs",
+            "require": "./index.js",
+            "types": "./index.d.mts"
         }
     },
     "type": "module",
