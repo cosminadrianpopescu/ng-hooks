@@ -41,37 +41,11 @@ solution.
 ***Counter-arguments / other options / ...***
 
 Between the arguments that I've heard since I'm doing Angular development, the
-only valid one was "use object composition". The others like finding different
-more complicated solutions just because the code would otherwise be more
-complicated are not even worth discussing. 
+only valid one was "use object composition".
 
-Regarding object composition, I've tried this and it poses one major issue:
-when it comes to modern developing tools, you are left on your own. There is
-no IDE nor LSP server for angular which will properly interpret something like
-this:
-
-```javascript
-const A = {
-    method1(): void{
-        ...
-    }
-}
-
-const B = {
-    method2(): void{
-        ...
-    }
-}
-
-const c = Object.create(Object.assign({}, A, B));
-
-```
-
-Following such a code, `c` will be of type `any`, because `Object.create`
-returns `any`. So, good luck finding definitions, references, and so on. Of
-course, a solution would be to have a lot of interfaces, but this is a poor
-solution compared with just extending the damn class. That is the
-straightforward solution. 
+Regarding the object composition, one of the main issues, is that you cannot
+do `Object.create(...)` and then apply angular annotations. The angular
+annotations are really oriented vs. classes, not dynamicaly object creations.
 
 ***Challenges***
 
