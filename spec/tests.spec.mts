@@ -4,6 +4,38 @@ import { interval } from 'rxjs';
 import { connectable } from '../ts/connect.mjs';
 import { NgOnDestroy, NgOnInit, Watcher } from '../ts/decorators.mjs';
 
+class ParentClass {
+    public x = 0;
+    public ngOnInit() {
+        expect(this.x).toEqual(0);
+        this.x++;
+    }
+}
+
+class Child1Class extends ParentClass {
+    public ngOnInit() {
+        expect(this.x).toEqual(0);
+        super.ngOnInit();
+        expect(this.x).toEqual(1);
+        this.x++;
+    }
+}
+
+class Child2Class extends Child1Class {
+    public ngOnInit() {
+        expect(this.x).toEqual(0);
+        super.ngOnInit();
+        expect(this.x).toEqual(2);
+        this.x++;
+    }
+
+    @NgOnInit()
+    private _initMe() {
+        expect(this.x).toEqual(3);
+        this.x++;
+    }
+}
+
 class BaseComponent {
     protected connect = connectable(this);
 }
@@ -117,5 +149,13 @@ describe('Test the testing system', () => {
         _assert(x, 8, 7, 'valuea2', undefined as any);
         (x as any)['ngOnDestroy']();
         expect(x.recordedChanges.length).toEqual(0);
+    });
+
+    it('test inheritance', async () => {
+        const x = new Child2Class();
+        if (Object.getPrototypeOf(x)['ngOnInit']) {
+            x.ngOnInit();
+        }
+        expect(x.x).toEqual(4);
     });
 });
