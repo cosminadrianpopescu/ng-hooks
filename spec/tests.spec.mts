@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { interval } from 'rxjs';
 import { connectable } from '../ts/connect.mjs';
-import { NgOnDestroy, NgOnInit, Watcher } from '../ts/decorators.mjs';
+import { CycleType, NgOnDestroy, NgOnInit, Watcher } from '../ts/decorators.mjs';
 
 class ParentClass {
     public x = 0;
@@ -13,7 +13,7 @@ class ParentClass {
 }
 
 class Child1Class extends ParentClass {
-    public ngOnInit() {
+    public override ngOnInit() {
         expect(this.x).toEqual(0);
         super.ngOnInit();
         expect(this.x).toEqual(1);
@@ -22,7 +22,7 @@ class Child1Class extends ParentClass {
 }
 
 class Child2Class extends Child1Class {
-    public ngOnInit() {
+    public override ngOnInit() {
         expect(this.x).toEqual(0);
         super.ngOnInit();
         expect(this.x).toEqual(2);
@@ -103,6 +103,12 @@ class ComponentB {
     }
 }
 
+const executeCycle = (instance: any, which: CycleType, args?: Array<any>) => {
+    if (Object.getPrototypeOf(instance)[which]) {
+        instance[which](...(args || []));
+    }
+}
+
 describe('Test the testing system', () => {
     it('tests the connectivity', () => {
         const clock = jasmine.clock().install();
@@ -110,7 +116,7 @@ describe('Test the testing system', () => {
         a.init();
         clock.tick(3500);
         expect(a.x).toEqual(2);
-        (a as any).ngOnDestroy();
+        executeCycle(a, 'ngOnDestroy');
         expect(a.x).toEqual(4);
         clock.tick(3500);
         expect(a.x).toEqual(4);
@@ -134,28 +140,26 @@ describe('Test the testing system', () => {
 
     it('tests the annotations', async () => {
         const x = new ComponentB();
-        x['ngOnInit']();
+        executeCycle(x, 'ngOnInit');
         expect(x.y).toEqual(3);
-        (x as any)['ngOnChanges']({'a': 'valuea1', 'b': 'valueb1'});
+        executeCycle(x, 'ngOnChanges', [{'a': 'valuea1', 'b': 'valueb1'}]);
         _assert(x, 3, 0, 'valuea1', 'valueb1');
         _assert(x, 3, 1, 'valuea1', undefined as any);
         _assert(x, 3, 2, 'valuea1', 'valueb1');
-        (x as any)['ngOnChanges']({'b': 'valueb1'});
+        executeCycle(x, 'ngOnChanges', [{'b': 'valueb1'}]);
         _assert(x, 5, 3, undefined as any, 'valueb1');
         _assert(x, 5, 4, undefined as any, 'valueb1');
-        (x as any)['ngOnChanges']({'a': 'valuea2'});
+        executeCycle(x, 'ngOnChanges', [{'a': 'valuea2'}]);
         _assert(x, 8, 5, 'valuea2', undefined as any);
         _assert(x, 8, 6, 'valuea2', undefined as any);
         _assert(x, 8, 7, 'valuea2', undefined as any);
-        (x as any)['ngOnDestroy']();
+        executeCycle(x, 'ngOnDestroy');
         expect(x.recordedChanges.length).toEqual(0);
     });
 
     it('test inheritance', async () => {
         const x = new Child2Class();
-        if (Object.getPrototypeOf(x)['ngOnInit']) {
-            x.ngOnInit();
-        }
+        executeCycle(x, 'ngOnInit');
         expect(x.x).toEqual(4);
     });
 });
