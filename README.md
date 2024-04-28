@@ -221,6 +221,7 @@ export class MyComponent implements NgOnInit {
         console.log('I am the first ran method when ngOnInit is on')
     }
 
+    @NgOnInit()
     private _anotherInit() {
         console.log('I am the third method ran when ngOnInit is on');
     }
@@ -305,7 +306,8 @@ export class SubscribtionSafeComponent {
         this._connect(interval(1000), x => console.log('another second gone...', x));
     }
 
-    @NgAfterViewInit() {
+    @NgAfterViewInit()
+    public _afterViewInit() {
         this._connect(fromEvent('click', this._myButton.nativeElement), () => console.log('my button was clicked'));
     }
 }
@@ -361,7 +363,7 @@ The `connectable` method returns a generic method, meaning using the result
 afterwards will not lead to losing the type checking from the typescript
 compiler. 
 
-```
+```typescript
 export class MyComponent {
     private _connect = connectable(this);
 
