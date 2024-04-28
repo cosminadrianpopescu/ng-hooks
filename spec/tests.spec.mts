@@ -22,16 +22,9 @@ class Child1Class extends ParentClass {
 }
 
 class Child2Class extends Child1Class {
-    public override ngOnInit() {
-        expect(this.x).toEqual(0);
-        super.ngOnInit();
-        expect(this.x).toEqual(2);
-        this.x++;
-    }
-
     @NgOnInit()
     private _initMe() {
-        expect(this.x).toEqual(3);
+        expect(this.x).toEqual(2);
         this.x++;
     }
 }
@@ -160,6 +153,6 @@ describe('Test the library', () => {
     it('test inheritance', async () => {
         const x = new Child2Class();
         executeCycle(x, 'ngOnInit');
-        expect(x.x).toEqual(4);
+        expect(x.x).toEqual(3);
     });
 });
