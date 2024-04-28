@@ -109,7 +109,7 @@ const executeCycle = (instance: any, which: CycleType, args?: Array<any>) => {
     }
 }
 
-describe('Test the testing system', () => {
+describe('Test the library', () => {
     it('tests the connectivity', () => {
         const clock = jasmine.clock().install();
         const a = new ComponentA();
