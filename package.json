@@ -1,6 +1,6 @@
 {
     "name": "ng-annotated-hooks",
-    "version": "1.0.3",
+    "version": "1.0.6",
     "description": "Replace angular lifecycle hooks with nicer annotations",
     "main": "./index.js",
     "module": "./index.mjs",
@@ -30,6 +30,6 @@
     },
     "dependencies": {
         "reflect-metadata": "^0.2.2",
-        "rxjs": "^7.8.1"
+        "rxjs": "^7.0.0"
     }
 }
