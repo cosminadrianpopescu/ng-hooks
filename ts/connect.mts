@@ -1,15 +1,22 @@
-import { Observable, Subscription } from "rxjs";
 import { DESTROY_CALLBACK, overwriteCycle } from "./decorators.mjs";
-
-type InternalSubscription = {
-    s: Subscription;
-    type: string;
-}
 
 const DEFAULT_SUBSCRIPTIONS_TYPE = '--default-subscriptions-type--';
 const SUBS_KEY = '--subscriptions--';
 
-export function connectable(instance: any): (<T>(obs: Observable<T>, callback: (t: T) => void, type?: string) => void) {
+export type Subscribable = {
+    unsubscribe: () => void;
+}
+
+type InternalSubscription = {
+    s: Subscribable;
+    type: string;
+}
+
+export type Connectable<T> = {
+    subscribe: (callback: (value: T) => void) => Subscribable;
+}
+
+export function connectable(instance: any): (<T>(obs: Connectable<T>, callback: (t: T) => void, type?: string) => void) {
     const proto = Object.getPrototypeOf(instance);
 
     if (!proto[DESTROY_CALLBACK]) {
@@ -19,7 +26,7 @@ export function connectable(instance: any): (<T>(obs: Observable<T>, callback: (
         overwriteCycle('ngOnDestroy', proto);
     }
 
-    return function<T>(obs: Observable<T>, callback: (t: T) => void, type: string = DEFAULT_SUBSCRIPTIONS_TYPE) {
+    return function<T>(obs: Connectable<T>, callback: (t: T) => void, type: string = DEFAULT_SUBSCRIPTIONS_TYPE) {
         if (!Array.isArray(this[SUBS_KEY])) {
             this[SUBS_KEY] = [];
         }
@@ -27,10 +34,10 @@ export function connectable(instance: any): (<T>(obs: Observable<T>, callback: (
     }.bind(instance);
 }
 
-export function getAllSubscriptions(instance: any): Array<Subscription> {
+export function getAllSubscriptions(instance: any): Array<Subscribable> {
     return ((instance[SUBS_KEY] || []) as Array<InternalSubscription>).map(s => s.s);
 }
 
-export function getSubscriptionsByType(instance: any, type: string): Array<Subscription> {
+export function getSubscriptionsByType(instance: any, type: string): Array<Subscribable> {
     return ((instance[SUBS_KEY] || []) as Array<InternalSubscription>).filter(s => s.type == type).map(s => s.s);
 }
