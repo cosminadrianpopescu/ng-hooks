@@ -14,6 +14,7 @@ type InternalSubscription = {
 
 export type Connectable<T> = {
     subscribe: (callback: (value: T) => void) => Subscribable;
+    emit?: (value: T) => void;
 }
 
 export function connectable(instance: any): (<T>(obs: Connectable<T>, callback: (t: T) => void, type?: string) => void) {
